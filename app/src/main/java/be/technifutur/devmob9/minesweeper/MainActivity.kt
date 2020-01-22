@@ -1,27 +1,29 @@
 package be.technifutur.devmob9.minesweeper
 
-import android.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
-    private val nbCol = 10
+    private val TAG = MainActivity::class.java.simpleName
+    private val boardSize = 10
+    private val mines: ArrayList<ArrayList<Boolean>> = ArrayList(boardSize)//arrayOf(BooleanArray(boardSize))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setupMines()
         //setupBoard()
     }
 
-    fun setupBoard() {
-        for (i in 0..this.nbCol) {
+    private fun setupBoard() {
+        for (i in 0..this.boardSize) {
             val button = Button(this)
             button.text = "1"
             val layoutParams = ViewGroup.LayoutParams(
@@ -32,5 +34,17 @@ class MainActivity : AppCompatActivity() {
             button.layoutParams = layoutParams
             boardLayout.addView(button)
         }
+    }
+
+    private fun setupMines() {
+        for (i in 0..this.boardSize) {
+            Log.d(TAG, i.toString())
+            this.mines.add(arrayListOf())
+            for (j in 0..this.boardSize) {
+                Log.d(TAG, j.toString())
+                this.mines[i].add(Random.nextBoolean())
+            }
+        }
+        Log.d(TAG, this.mines.toString())
     }
 }
