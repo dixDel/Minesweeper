@@ -6,7 +6,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -76,6 +78,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkMines(button: Button, i: Int, j: Int) {
         if (button.tag.toString().toBoolean()) {
             button.background = getDrawable(R.drawable.mine)
+            this.gameOver()
         } else {
             var nbMines = getNbMinesSurrounding(i, j)
             if (nbMines > 0) {
@@ -84,6 +87,10 @@ class MainActivity : AppCompatActivity() {
                 button.visibility = View.INVISIBLE
             }
         }
+    }
+
+    private fun gameOver() {
+        Snackbar.make(mainLayout, "ET BOUUUUUUM !", Snackbar.LENGTH_LONG).show()
     }
 
     private fun setupMines() {
