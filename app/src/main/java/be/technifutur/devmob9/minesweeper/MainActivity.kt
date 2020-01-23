@@ -42,6 +42,9 @@ class MainActivity : AppCompatActivity() {
                 button.layoutParams = layoutParams
                 button.setOnClickListener {
                     Log.d(TAG, button.tag.toString())
+                    if (button.tag.toString().toBoolean()) {
+                        button.background = getDrawable(R.drawable.mine)
+                    }
                 }
                 linearLayout.addView(button)
             }
