@@ -88,6 +88,12 @@ class MainActivity : AppCompatActivity() {
         if (col < this.boardSize - 1 && this.mines[row][col + 1]) {
             nbMines++
         }
+        if (row > 0 && this.mines[row - 1][col]) {
+            nbMines++
+        }
+        if (row < this.boardSize - 1 && this.mines[row + 1][col]) {
+            nbMines++
+        }
         return nbMines
     }
 }
