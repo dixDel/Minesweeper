@@ -1,9 +1,9 @@
 package be.technifutur.devmob9.minesweeper
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -18,13 +18,28 @@ class MainActivity : AppCompatActivity() {
     private val boardSize = 10
     private val mines: ArrayList<ArrayList<Boolean>> = ArrayList(boardSize)//arrayOf(BooleanArray(boardSize))
 
+    private var isSetMarkerActivated = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setupMines()
         setupBoard()
+        setupButtons()
 
+    }
+
+    private fun setupButtons() {
+        putMarkerButton.setBackgroundColor(Color.LTGRAY)
+        putMarkerButton.setOnClickListener {
+            isSetMarkerActivated = !isSetMarkerActivated
+            if (isSetMarkerActivated) {
+                putMarkerButton.setBackgroundColor(Color.GREEN)
+            } else {
+                putMarkerButton.setBackgroundColor(Color.LTGRAY)
+            }
+        }
     }
 
     private fun setupBoard() {
@@ -43,18 +58,30 @@ class MainActivity : AppCompatActivity() {
                 button.layoutParams = layoutParams
                 button.setOnClickListener {
                     Log.d(TAG, button.tag.toString())
-                    if (button.tag.toString().toBoolean()) {
-                        button.background = getDrawable(R.drawable.mine)
+                    if (this.isSetMarkerActivated) {
+                        putMarker(button)
                     } else {
-                        var nbMines = getNbMinesSurrounding(i, j)
-                        if (nbMines > 0) {
-                            button.text = nbMines.toString()
-                        } else {
-                            button.visibility = View.INVISIBLE
-                        }
+                        checkMines(button, i, j)
                     }
                 }
                 linearLayout.addView(button)
+            }
+        }
+    }
+
+    private fun putMarker(button: Button) {
+        button.background = getDrawable(R.drawable.flag)
+    }
+
+    private fun checkMines(button: Button, i: Int, j: Int) {
+        if (button.tag.toString().toBoolean()) {
+            button.background = getDrawable(R.drawable.mine)
+        } else {
+            var nbMines = getNbMinesSurrounding(i, j)
+            if (nbMines > 0) {
+                button.text = nbMines.toString()
+            } else {
+                button.visibility = View.INVISIBLE
             }
         }
     }
