@@ -33,12 +33,16 @@ class MainActivity : AppCompatActivity() {
             for (j in 0 until this.boardSize) {
                 val button = Button(this)
                 button.text = ""
+                button.tag = this.mines[i][j].toString()
                 val layoutParams = LinearLayout.LayoutParams(
                     0,
                     this.dpToPx(50),
                     1.0f
                 )
                 button.layoutParams = layoutParams
+                button.setOnClickListener {
+                    Log.d(TAG, button.tag.toString())
+                }
                 linearLayout.addView(button)
             }
         }
