@@ -1,13 +1,15 @@
 package be.technifutur.devmob9.minesweeper
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.math.roundToInt
 import kotlin.random.Random
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,10 +32,10 @@ class MainActivity : AppCompatActivity() {
             boardLayout.addView(linearLayout)
             for (j in 0 until this.boardSize) {
                 val button = Button(this)
-                button.text = "1"
+                button.text = ""
                 val layoutParams = LinearLayout.LayoutParams(
                     0,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    this.dpToPx(50),
                     1.0f
                 )
                 button.layoutParams = layoutParams
@@ -52,5 +54,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
         Log.d(TAG, this.mines.toString())
+    }
+
+    /*
+     * @source https://medium.com/@euryperez/android-pearls-set-size-to-a-view-in-dp-programatically-71d22eed7fc0
+     */
+    private fun dpToPx(dp: Int): Int {
+        val density: Float = this.resources
+            .displayMetrics.density
+        return (dp.toFloat() * density).roundToInt()
     }
 }
