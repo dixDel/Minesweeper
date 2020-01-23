@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.random.Random
 
@@ -19,20 +20,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         setupMines()
-        //setupBoard()
+        setupBoard()
+
     }
 
     private fun setupBoard() {
-        for (i in 0..this.boardSize) {
-            val button = Button(this)
-            button.text = "1"
-            val layoutParams = ViewGroup.LayoutParams(
-                //100, 100
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            button.layoutParams = layoutParams
-            boardLayout.addView(button)
+        for (i in 0 until this.boardSize) {
+            val linearLayout = LinearLayout(this)
+            boardLayout.addView(linearLayout)
+            for (j in 0 until this.boardSize) {
+                val button = Button(this)
+                button.text = "1"
+                val layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    1.0f
+                )
+                button.layoutParams = layoutParams
+                linearLayout.addView(button)
+            }
         }
     }
 
