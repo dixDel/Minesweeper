@@ -2,6 +2,7 @@ package be.technifutur.devmob9.minesweeper
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
@@ -44,6 +45,13 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, button.tag.toString())
                     if (button.tag.toString().toBoolean()) {
                         button.background = getDrawable(R.drawable.mine)
+                    } else {
+                        var nbMines = getNbMinesSurrounding(i, j)
+                        if (nbMines > 0) {
+                            button.text = nbMines.toString()
+                        } else {
+                            button.visibility = View.INVISIBLE
+                        }
                     }
                 }
                 linearLayout.addView(button)
@@ -52,10 +60,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupMines() {
-        for (i in 0..this.boardSize) {
+        for (i in 0 until this.boardSize) {
             Log.d(TAG, i.toString())
             this.mines.add(arrayListOf())
-            for (j in 0..this.boardSize) {
+            for (j in 0 until this.boardSize) {
                 Log.d(TAG, j.toString())
                 this.mines[i].add(Random.nextBoolean())
             }
@@ -70,5 +78,16 @@ class MainActivity : AppCompatActivity() {
         val density: Float = this.resources
             .displayMetrics.density
         return (dp.toFloat() * density).roundToInt()
+    }
+
+    private fun getNbMinesSurrounding(row: Int, col: Int): Int {
+        var nbMines = 0
+        if (col > 0 && this.mines[row][col - 1]) {
+            nbMines++
+        }
+        if (col < this.boardSize - 1 && this.mines[row][col + 1]) {
+            nbMines++
+        }
+        return nbMines
     }
 }
