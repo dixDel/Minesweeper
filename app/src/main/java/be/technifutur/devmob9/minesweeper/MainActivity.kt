@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private val TAG = MainActivity::class.java.simpleName
     private val boardSize = 10
-    private val mines: ArrayList<ArrayList<Boolean>> = ArrayList(boardSize)//arrayOf(BooleanArray(boardSize))
+    private val mines: ArrayList<ArrayList<MineButton>> = ArrayList(boardSize)//arrayOf(BooleanArray(boardSize))
 
     private var isSetMarkerActivated = false
 
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 button.setOnClickListener {
                     Log.d(TAG, button.tag.toString())
                     if (this.isSetMarkerActivated) {
-                        putMarker(button)
+                        putMarker(button, i, j)
                     } else {
                         checkMines(button, i, j)
                     }
@@ -71,12 +70,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun putMarker(button: Button) {
-        button.background = getDrawable(R.drawable.flag)
+    private fun putMarker(button: Button, i: Int, j: Int) {
+        if (this.mines[i][j].isMarked) {
+            button.setBackgroundColor(Color.LTGRAY)
+            this.mines[i][j].isMarked = false
+        } else {
+            button.background = getDrawable(R.drawable.flag)
+            this.mines[i][j].isMarked = true
+        }
     }
 
     private fun checkMines(button: Button, i: Int, j: Int) {
-        if (button.tag.toString().toBoolean()) {
+        if (this.mines[i][j].isMined) {
             button.background = getDrawable(R.drawable.mine)
             this.gameOver()
         } else {
@@ -99,7 +104,10 @@ class MainActivity : AppCompatActivity() {
             this.mines.add(arrayListOf())
             for (j in 0 until this.boardSize) {
                 Log.d(TAG, j.toString())
-                this.mines[i].add(Random.nextBoolean())
+                this.mines[i].add(MineButton(
+                    Random.nextBoolean(),
+                    false
+                ))
             }
         }
         Log.d(TAG, this.mines.toString())
@@ -117,31 +125,31 @@ class MainActivity : AppCompatActivity() {
     private fun getNbMinesSurrounding(row: Int, col: Int): Int {
         var nbMines = 0
         if (col > 0) {
-            if (this.mines[row][col - 1]) {
+            if (this.mines[row][col - 1].isMined) {
                 nbMines++
             }
-            if (row > 0 && this.mines[row - 1][col - 1]) {
+            if (row > 0 && this.mines[row - 1][col - 1].isMined) {
                 nbMines++
             }
-            if (row < this.boardSize - 1 && this.mines[row + 1][col - 1]) {
+            if (row < this.boardSize - 1 && this.mines[row + 1][col - 1].isMined) {
                 nbMines++
             }
         }
         if (col < this.boardSize - 1) {
-            if (this.mines[row][col + 1]) {
+            if (this.mines[row][col + 1].isMined) {
                 nbMines++
             }
-            if (row > 0 && this.mines[row - 1][col + 1]) {
+            if (row > 0 && this.mines[row - 1][col + 1].isMined) {
                 nbMines++
             }
-            if (row < this.boardSize - 1 && this.mines[row + 1][col + 1]) {
+            if (row < this.boardSize - 1 && this.mines[row + 1][col + 1].isMined) {
                 nbMines++
             }
         }
-        if (row > 0 && this.mines[row - 1][col]) {
+        if (row > 0 && this.mines[row - 1][col].isMined) {
             nbMines++
         }
-        if (row < this.boardSize - 1 && this.mines[row + 1][col]) {
+        if (row < this.boardSize - 1 && this.mines[row + 1][col].isMined) {
             nbMines++
         }
         return nbMines
