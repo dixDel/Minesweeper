@@ -32,13 +32,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
-        putMarkerButton.setBackgroundColor(Color.LTGRAY)
+        putMarkerButton.background = getDrawable(android.R.drawable.btn_default)
+        resetButton.background = getDrawable(android.R.drawable.btn_default)
         putMarkerButton.setOnClickListener {
             isSetMarkerActivated = !isSetMarkerActivated
             if (isSetMarkerActivated) {
                 putMarkerButton.setBackgroundColor(Color.GREEN)
             } else {
-                putMarkerButton.setBackgroundColor(Color.LTGRAY)
+                putMarkerButton.background = getDrawable(android.R.drawable.btn_default)
             }
         }
     }
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                     1.0f
                 )
                 button.layoutParams = layoutParams
+                button.background = getDrawable(android.R.drawable.btn_default)
                 button.setOnClickListener {
                     Log.d(TAG, button.tag.toString())
                     if (this.isSetMarkerActivated) {
@@ -72,7 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun putMarker(button: Button, i: Int, j: Int) {
         if (this.mines[i][j].isMarked) {
-            button.setBackgroundColor(Color.LTGRAY)
+            button.background = getDrawable(android.R.drawable.btn_default)
             this.mines[i][j].isMarked = false
         } else {
             button.background = getDrawable(R.drawable.flag)
