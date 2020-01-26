@@ -1,6 +1,9 @@
 package be.technifutur.devmob9.minesweeper
 
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -37,9 +40,10 @@ class MainActivity : AppCompatActivity() {
         putMarkerButton.setOnClickListener {
             isSetMarkerActivated = !isSetMarkerActivated
             if (isSetMarkerActivated) {
-                putMarkerButton.setBackgroundColor(Color.GREEN)
+                putMarkerButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.putMarkerOn));
             } else {
                 putMarkerButton.background = getDrawable(android.R.drawable.btn_default)
+                putMarkerButton.backgroundTintList = null
             }
         }
     }
