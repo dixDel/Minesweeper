@@ -77,18 +77,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun putMarker(button: Button, i: Int, j: Int) {
-        if (this.mines[i][j].isMarked) {
+        val mineButton = this.mines[i][j]
+        if (mineButton.isMarked) {
             button.background = getDrawable(android.R.drawable.btn_default)
-            this.mines[i][j].isMarked = false
-        } else {
+            mineButton.isMarked = false
+        } else if (mineButton.isActive) {
             button.background = getDrawable(R.drawable.flag)
-            this.mines[i][j].isMarked = true
+            mineButton.isMarked = true
         }
     }
 
     private fun checkMines(button: Button, i: Int, j: Int) {
-        if (this.mines[i][j].isMined) {
+        val mineButton = this.mines[i][j]
+        if (mineButton.isMined) {
             button.background = getDrawable(R.drawable.mine)
+            mineButton.isActive = false
             this.gameOver()
         } else {
             var nbMines = getNbMinesSurrounding(i, j)
@@ -97,6 +100,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 button.visibility = View.INVISIBLE
             }
+            mineButton.isActive = false
         }
     }
 
