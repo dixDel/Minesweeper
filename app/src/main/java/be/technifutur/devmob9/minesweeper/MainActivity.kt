@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkMines(button: Button, i: Int, j: Int) {
         val mineButton = this.mines[i][j]
+        button.background = getDrawable(android.R.drawable.btn_default)
         if (mineButton.isMined) {
             button.background = getDrawable(R.drawable.mine)
             mineButton.isActive = false
