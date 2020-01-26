@@ -35,21 +35,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
-        putMarkerButton.background = getDrawable(android.R.drawable.btn_default)
-        resetButton.background = getDrawable(android.R.drawable.btn_default)
+        this.resetButton(putMarkerButton)
+        this.resetButton(resetButton)
         putMarkerButton.setOnClickListener {
             isSetMarkerActivated = !isSetMarkerActivated
             if (isSetMarkerActivated) {
                 putMarkerButton.backgroundTintList = ColorStateList.valueOf(resources.getColor(R.color.putMarkerOn));
             } else {
-                putMarkerButton.background = getDrawable(android.R.drawable.btn_default)
-                putMarkerButton.backgroundTintList = null
+                this.resetButton(putMarkerButton)
             }
         }
         resetButton.setOnClickListener {
             setupMines()
             setupBoard()
+            this.resetButton(putMarkerButton)
+            isSetMarkerActivated = false
         }
+    }
+
+    private fun resetButton(button: Button) {
+        button.backgroundTintList = null
+        button.background = getDrawable(android.R.drawable.btn_default)
     }
 
     private fun setupBoard() {
