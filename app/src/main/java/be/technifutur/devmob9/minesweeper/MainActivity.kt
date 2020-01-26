@@ -46,9 +46,14 @@ class MainActivity : AppCompatActivity() {
                 putMarkerButton.backgroundTintList = null
             }
         }
+        resetButton.setOnClickListener {
+            setupMines()
+            setupBoard()
+        }
     }
 
     private fun setupBoard() {
+        boardLayout.removeAllViews()
         for (i in 0 until this.boardSize) {
             val linearLayout = LinearLayout(this)
             boardLayout.addView(linearLayout)
@@ -110,6 +115,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupMines() {
+        this.mines.clear()
         for (i in 0 until this.boardSize) {
             Log.d(TAG, i.toString())
             this.mines.add(arrayListOf())
